@@ -112,48 +112,60 @@ export function OrderBoardPage() {
       {/* Header & Search */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center">
-            <Layers className="w-6 h-6 mr-2 text-primary" />
-            Papan Antrian & Status Cucian
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Kelola alur pengerjaan cucian pelanggan dari masuk hingga siap diambil dan selesai.
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center">
+              <Layers className="w-6 h-6 mr-2 text-primary" />
+              Papan Antrian & Status Cucian
+            </h1>
+            <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200 tabular-nums">
+              {filteredOrders.length} antrian
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 mt-1">
+            Alur pengerjaan cucian 6 tahapan secara berurutan. Geser ke kanan untuk melihat status tahapan cucian berikutnya.
           </p>
         </div>
 
-        <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-          <Input
-            placeholder="Filter invoice / pelanggan..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 h-9 text-xs"
-          />
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="relative w-full sm:w-72">
+            <label htmlFor="board-search" className="sr-only">Filter invoice atau pelanggan</label>
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Input
+              id="board-search"
+              placeholder="Filter invoice / pelanggan…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9 h-9 text-xs"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Kanban Board Columns Grid */}
+      {/* Kanban Board Columns Horizontal Pipeline */}
       {loading ? (
-        <div className="text-center py-16 text-xs text-slate-400">Memuat antrian laundry...</div>
+        <div className="text-center py-16 text-xs text-slate-400">Memuat antrian laundry…</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 items-start overflow-x-auto pb-4">
+        <div className="flex gap-4 items-start overflow-x-auto pb-6 pt-1 px-1 -mx-1 custom-scrollbar">
           {COLUMNS.map((col) => {
             const colOrders = filteredOrders.filter((o) => o.status === col.key)
 
             return (
-              <div key={col.key} className="flex flex-col min-w-[240px] bg-slate-100/70 p-3 rounded-2xl border border-slate-200 min-h-[500px]">
+              <div
+                key={col.key}
+                className="flex flex-col w-[290px] sm:w-[310px] shrink-0 bg-slate-100/70 p-3.5 rounded-2xl border border-slate-200 min-h-[550px] shadow-2xs"
+              >
                 {/* Column Header */}
-                <div className={`flex justify-between items-center pb-2.5 mb-3 border-b ${col.color} px-2 py-1.5 rounded-lg border font-bold text-xs`}>
+                <div className={`flex justify-between items-center pb-2.5 mb-3 border-b ${col.color} px-3 py-2 rounded-xl border font-bold text-xs`}>
                   <span>{col.label}</span>
-                  <span className="bg-white/80 px-2 py-0.5 rounded-full text-[11px] shadow-2xs">
+                  <span className="bg-white/90 px-2 py-0.5 rounded-full text-[11px] shadow-2xs tabular-nums font-semibold text-slate-800">
                     {colOrders.length}
                   </span>
                 </div>
 
                 {/* Cards in Column */}
-                <div className="space-y-3 flex-1 overflow-y-auto max-h-[700px] pr-0.5">
+                <div className="space-y-3 flex-1 overflow-y-auto max-h-[calc(100vh-270px)] pr-0.5 custom-scrollbar">
                   {colOrders.length === 0 ? (
-                    <div className="text-center py-10 text-[11px] text-slate-400 italic">
+                    <div className="text-center py-12 text-[11px] text-slate-400 italic bg-white/50 rounded-xl border border-dashed border-slate-200">
                       Tidak ada antrian
                     </div>
                   ) : (
@@ -164,7 +176,7 @@ export function OrderBoardPage() {
                       >
                         {/* Card Header: Invoice & Payment */}
                         <div className="flex justify-between items-start gap-1">
-                          <span className="font-mono text-xs font-bold text-slate-900">
+                          <span className="font-mono text-xs font-bold text-slate-900 tabular-nums">
                             {order.invoice_number}
                           </span>
                           <Badge variant={order.payment_status === 'paid' ? 'paid' : 'unpaid'} className="text-[9px] py-0 font-bold uppercase">
@@ -177,7 +189,7 @@ export function OrderBoardPage() {
                           <div className="font-semibold text-xs text-slate-800">
                             {order.customer?.name}
                           </div>
-                          <div className="text-[10px] text-slate-400">
+                          <div className="text-[10px] text-slate-400 tabular-nums">
                             {order.customer?.phone}
                           </div>
                         </div>
@@ -187,7 +199,7 @@ export function OrderBoardPage() {
                           {order.items?.map((item, idx) => (
                             <div key={idx} className="flex justify-between">
                               <span className="truncate pr-1">{item.service?.name}</span>
-                              <span className="font-medium">{item.quantity} {item.service?.unit}</span>
+                              <span className="font-medium"><span className="tabular-nums font-semibold">{item.quantity}</span> {item.service?.unit}</span>
                             </div>
                           ))}
                           {order.perfume && (
@@ -199,7 +211,7 @@ export function OrderBoardPage() {
 
                         {/* Price & Est */}
                         <div className="flex justify-between items-center text-xs pt-1">
-                          <span className="font-bold text-slate-900">
+                          <span className="font-bold text-slate-900 tabular-nums">
                             {formatRupiah(order.total_amount)}
                           </span>
                           <button
@@ -260,7 +272,7 @@ export function OrderBoardPage() {
               <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 space-y-1">
                 <div className="font-bold">Nota #{pendingPaymentOrder.invoice_number}</div>
                 <div>Pelanggan: {pendingPaymentOrder.customer?.name}</div>
-                <div className="text-sm font-extrabold pt-1">
+                <div className="text-sm font-extrabold pt-1 tabular-nums">
                   Tagihan Belum Lunas: {formatRupiah(pendingPaymentOrder.total_amount - pendingPaymentOrder.paid_amount)}
                 </div>
               </div>

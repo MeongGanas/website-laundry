@@ -56,14 +56,14 @@ export function Footer() {
                 <Clock className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-200">Senin - Sabtu:</p>
-                  <p>07.00 - 21.00 WIB</p>
+                  <p className="tabular-nums">07:00 - 21:00 WIB</p>
                 </div>
               </div>
               <div className="flex items-start space-x-2 pt-1">
                 <Clock className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-200">Minggu & Libur Nasional:</p>
-                  <p>08.00 - 18.00 WIB</p>
+                  <p className="tabular-nums">08:00 - 18:00 WIB</p>
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-2.5">
                 <Phone className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="hover:underline">
+                <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="hover:underline tabular-nums">
                   0812-3456-7890 (WhatsApp)
                 </a>
               </div>

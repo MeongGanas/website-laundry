@@ -1,7 +1,7 @@
 import React from 'react'
-import { Printer, MessageCircle, CheckCircle2, Clock } from 'lucide-react'
+import { Printer, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { formatRupiah, formatDate } from '@/lib/utils'
+import { formatRupiah, formatDate, formatWhatsAppPhone } from '@/lib/utils'
 
 export function ThermalReceipt({ order, onClose }) {
   if (!order) return null
@@ -10,18 +10,47 @@ export function ThermalReceipt({ order, onClose }) {
     window.print()
   }
 
-  // Format WhatsApp message
+  // Format WhatsApp message cleanly without broken characters or variation selectors
   const handleSendWhatsApp = () => {
     if (!order.customer?.phone) return
-    let rawPhone = order.customer.phone.replace(/[^0-9]/g, '')
-    if (rawPhone.startsWith('0')) {
-      rawPhone = '62' + rawPhone.slice(1)
-    }
+    const rawPhone = formatWhatsAppPhone(order.customer.phone)
 
     const trackUrl = `${window.location.origin}/track?invoice=${order.invoice_number}`
-    const text = `Halo Kak *${order.customer.name}*,\n\nTerima kasih telah mencuci di *Laundry*! 🙏\n\n📄 *No. Nota:* ${order.invoice_number}\n💰 *Total:* ${formatRupiah(order.total_amount)}\n💳 *Status Bayar:* ${order.payment_status === 'paid' ? 'LUNAS (Terima Kasih)' : 'BELUM LUNAS'}\n🌸 *Parfum:* ${order.perfume || 'Reguler'}\n⏱️ *Estimasi Selesai:* ${formatDate(order.estimated_completion)}\n\nLacak status cucian Anda secara real-time di sini:\n👉 ${trackUrl}\n\n_Laundry - Bersih, Wangi, & Rapi._`
 
-    window.open(`https://wa.me/${rawPhone}?text=${encodeURIComponent(text)}`, '_blank')
+    // Build items list cleanly
+    const itemsText = order.items && order.items.length > 0
+      ? order.items
+          .map((i) => `- ${i.service?.name || i.service_name || 'Layanan'}: ${i.quantity} ${i.service?.unit || i.unit || ''} (${formatRupiah(i.subtotal)})`)
+          .join('\n')
+      : ''
+
+    const lines = [
+      `*LAUNDRY - NOTA TRANSAKSI*`,
+      `------------------------------------------`,
+      `Halo Kak *${order.customer?.name || 'Pelanggan'}*,`,
+      `Terima kasih telah mempercayakan cucian Anda di *Laundry*.`,
+      ``,
+      `*Detail Pesanan:*`,
+      `- No. Nota: *${order.invoice_number}*`,
+      `- Total Biaya: *${formatRupiah(order.total_amount)}*`,
+      `- Status Bayar: *${order.payment_status === 'paid' ? 'LUNAS (Terima Kasih)' : 'BELUM LUNAS'}*`,
+      order.perfume ? `- Aroma Parfum: *${order.perfume}*` : null,
+      order.estimated_completion ? `- Estimasi Selesai: *${formatDate(order.estimated_completion)}*` : null,
+      itemsText ? `\n*Rincian Layanan:*\n${itemsText}` : null,
+      ``,
+      `*Lacak Status Cucian:*`,
+      trackUrl,
+      ``,
+      `------------------------------------------`,
+      `_Laundry - Bersih, Wangi, & Rapi._`
+    ].filter(Boolean).join('\n')
+
+    // Clean any accidental non-breaking space (0xA0, 0x202F) and variation selectors (0xFE00 - 0xFE0F)
+    const cleanMessage = lines
+      .replace(/[\u00A0\u202F]/g, ' ')
+      .replace(/[\uFE00-\uFE0F]/g, '')
+
+    window.open(`https://wa.me/${rawPhone}?text=${encodeURIComponent(cleanMessage)}`, '_blank')
   }
 
   return (
@@ -46,7 +75,7 @@ export function ThermalReceipt({ order, onClose }) {
       {/* The Printable Area (Styled as standard 58mm / 80mm thermal receipt) */}
       <div
         id="printable-receipt"
-        className="w-full max-w-[340px] bg-white text-black p-4 border border-dashed border-slate-300 rounded font-mono text-xs leading-tight shadow-sm"
+        className="w-full max-w-[340px] bg-white text-black p-4 border border-dashed border-slate-300 rounded font-mono text-xs leading-tight shadow-sm tabular-nums"
       >
         {/* Header */}
         <div className="text-center pb-2 border-b border-dashed border-slate-400">

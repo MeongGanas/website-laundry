@@ -251,28 +251,35 @@ export function PosPage() {
             <CardContent className="p-4 space-y-3">
               {/* Autocomplete Search input */}
               <div className="relative">
+                <label htmlFor="pos-customer-search" className="sr-only">
+                  Cari Pelanggan Lama
+                </label>
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <Input
+                  id="pos-customer-search"
                   type="text"
-                  placeholder="Cari pelanggan lama via Nama / No. HP..."
+                  placeholder="Cari pelanggan lama via Nama / No. HP…"
                   value={customerSearch}
                   onChange={(e) => setCustomerSearch(e.target.value)}
+                  autoComplete="off"
+                  spellCheck={false}
                   className="pl-9 h-10 text-xs"
                 />
                 {customerResults.length > 0 && (
-                  <div className="absolute left-0 right-0 top-11 bg-white border border-slate-200 rounded-lg shadow-xl z-30 max-h-48 overflow-y-auto divide-y">
+                  <div role="listbox" className="absolute left-0 right-0 top-11 bg-white border border-slate-200 rounded-lg shadow-xl z-30 max-h-48 overflow-y-auto divide-y">
                     {customerResults.map((c) => (
-                      <div
+                      <button
+                        type="button"
                         key={c.id}
                         onClick={() => selectExistingCustomer(c)}
-                        className="p-3 text-xs hover:bg-slate-50 cursor-pointer flex justify-between items-center"
+                        className="w-full text-left p-3 text-xs hover:bg-slate-50 cursor-pointer flex justify-between items-center transition-colors"
                       >
                         <div>
                           <div className="font-bold text-slate-800">{c.name}</div>
-                          <div className="text-slate-500 text-[11px]">{c.phone}</div>
+                          <div className="text-slate-500 text-[11px] tabular-nums">{c.phone}</div>
                         </div>
                         <Badge variant="outline" className="text-[10px]">Pilih</Badge>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 )}
@@ -281,26 +288,33 @@ export function PosPage() {
               {/* Manual Input or Prefilled */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div>
-                  <Label className="text-xs">Nama Pelanggan *</Label>
+                  <Label htmlFor="pos-customer-name" className="text-xs">Nama Pelanggan *</Label>
                   <Input
+                    id="pos-customer-name"
                     placeholder="Nama Lengkap"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
+                    autoComplete="name"
                     className="h-9 text-xs mt-1"
                   />
                 </div>
                 <div>
-                  <Label className="text-xs">Nomor WhatsApp / HP *</Label>
+                  <Label htmlFor="pos-customer-phone" className="text-xs">Nomor WhatsApp / HP *</Label>
                   <Input
+                    id="pos-customer-phone"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
                     placeholder="08123456789"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
-                    className="h-9 text-xs mt-1"
+                    className="h-9 text-xs mt-1 tabular-nums"
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <Label className="text-xs">Alamat (Opsional)</Label>
+                  <Label htmlFor="pos-customer-address" className="text-xs">Alamat (Opsional)</Label>
                   <Input
+                    id="pos-customer-address"
                     placeholder="Alamat domisili atau patokan antar"
                     value={customerAddress}
                     onChange={(e) => setCustomerAddress(e.target.value)}
@@ -351,7 +365,7 @@ export function PosPage() {
             </CardHeader>
             <CardContent className="p-4">
               {loadingServices ? (
-                <div className="text-center py-8 text-xs text-slate-400">Memuat layanan...</div>
+                <div className="text-center py-8 text-xs text-slate-400">Memuat layanan…</div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[460px] overflow-y-auto pr-1">
                   {filteredServices.map((svc) => (
@@ -375,7 +389,7 @@ export function PosPage() {
                       </div>
 
                       <div className="flex justify-between items-center mt-3 pt-2 border-t border-slate-100">
-                        <span className="text-xs font-black text-primary">
+                        <span className="text-xs font-black text-primary tabular-nums">
                           {formatRupiah(svc.price)} <span className="text-[10px] text-slate-400 font-normal">/{svc.unit}</span>
                         </span>
                         <Button size="sm" className="h-7 px-2.5 text-xs bg-slate-900 group-hover:bg-primary transition-colors">
@@ -397,7 +411,7 @@ export function PosPage() {
               <div className="flex justify-between items-center">
                 <CardTitle className="text-sm font-bold flex items-center">
                   <Calculator className="w-4 h-4 mr-2 text-primary" />
-                  Nota Transaksi ({cartItems.length} Layanan)
+                  Nota Transaksi (<span className="tabular-nums">{cartItems.length}</span> Layanan)
                 </CardTitle>
                 {cartItems.length > 0 && (
                   <Button variant="ghost" size="sm" onClick={() => setCartItems([])} className="text-xs text-rose-600 h-7">
@@ -420,18 +434,19 @@ export function PosPage() {
                       <div className="flex justify-between items-start">
                         <div className="flex-1 pr-2">
                           <div className="text-xs font-bold text-slate-800">{item.name}</div>
-                          <div className="text-[10px] text-slate-400">
+                          <div className="text-[10px] text-slate-400 tabular-nums">
                             {formatRupiah(item.price)} / {item.unit}
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-xs font-extrabold text-slate-900">
+                          <div className="text-xs font-extrabold text-slate-900 tabular-nums">
                             {formatRupiah(item.price * item.quantity)}
                           </div>
                           <button
                             type="button"
                             onClick={() => removeFromCart(index)}
-                            className="text-rose-500 hover:text-rose-700 text-[10px] flex items-center ml-auto mt-0.5"
+                            aria-label={`Hapus ${item.name} dari keranjang`}
+                            className="text-rose-500 hover:text-rose-700 text-[10px] flex items-center ml-auto mt-0.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rose-500 rounded"
                           >
                             <Trash2 className="w-3 h-3 mr-0.5" /> Hapus
                           </button>
@@ -441,22 +456,27 @@ export function PosPage() {
                       {/* Quantity & Notes Controls */}
                       <div className="grid grid-cols-2 gap-2">
                         <div className="flex items-center space-x-1">
-                          <Label className="text-[10px] text-slate-500 whitespace-nowrap">
+                          <label htmlFor={`cart-item-qty-${index}`} className="text-[10px] text-slate-500 whitespace-nowrap">
                             {item.category === 'kiloan' ? 'Berat (kg):' : 'Jumlah (pcs):'}
-                          </Label>
+                          </label>
                           <Input
+                            id={`cart-item-qty-${index}`}
                             type="number"
                             step={item.category === 'kiloan' ? '0.1' : '1'}
                             min="0.1"
                             value={item.quantity}
                             onChange={(e) => updateQuantity(index, e.target.value)}
-                            className="h-7 text-xs px-2 w-20 text-center font-bold"
+                            className="h-7 text-xs px-2 w-20 text-center font-bold tabular-nums"
                           />
                         </div>
                         <div>
+                          <label htmlFor={`cart-item-notes-${index}`} className="sr-only">
+                            Catatan untuk {item.name}
+                          </label>
                           <Input
+                            id={`cart-item-notes-${index}`}
                             type="text"
-                            placeholder="Catatan noda / pisah..."
+                            placeholder="Catatan noda / pisah…"
                             value={item.item_notes}
                             onChange={(e) => updateItemNotes(index, e.target.value)}
                             className="h-7 text-[11px] px-2"
@@ -471,8 +491,9 @@ export function PosPage() {
               {/* Extra Choices: Aroma Parfum & Catatan */}
               <div className="pt-2 border-t space-y-3">
                 <div>
-                  <Label className="text-xs font-semibold">Pilihan Aroma Parfum</Label>
+                  <Label htmlFor="pos-perfume" className="text-xs font-semibold">Pilihan Aroma Parfum</Label>
                   <select
+                    id="pos-perfume"
                     value={perfume}
                     onChange={(e) => setPerfume(e.target.value)}
                     className="w-full h-9 rounded-md border border-input bg-background px-3 py-1 text-xs mt-1"
@@ -484,8 +505,9 @@ export function PosPage() {
                 </div>
 
                 <div>
-                  <Label className="text-xs">Catatan Khusus Nota</Label>
+                  <Label htmlFor="pos-order-notes" className="text-xs">Catatan Khusus Nota</Label>
                   <Input
+                    id="pos-order-notes"
                     placeholder="Misal: Harum maksimal, kemeja digantung"
                     value={orderNotes}
                     onChange={(e) => setOrderNotes(e.target.value)}
@@ -498,7 +520,7 @@ export function PosPage() {
               <div className="pt-3 border-t space-y-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
                 <div className="flex justify-between items-center text-sm font-extrabold">
                   <span className="text-slate-700">TOTAL BIAYA:</span>
-                  <span className="text-xl text-primary font-black">{formatRupiah(totalAmount)}</span>
+                  <span className="text-xl text-primary font-black tabular-nums">{formatRupiah(totalAmount)}</span>
                 </div>
 
                 {/* Status Bayar Selector */}
@@ -550,14 +572,15 @@ export function PosPage() {
 
                     {paymentMethod === 'cash' && (
                       <div className="space-y-1.5 pt-2">
-                        <Label className="text-xs">Uang Diterima (Tunai)</Label>
+                        <Label htmlFor="pos-received-amount" className="text-xs">Uang Diterima (Tunai)</Label>
                         <div className="flex gap-2">
                           <Input
+                            id="pos-received-amount"
                             type="number"
                             placeholder="Rp 0"
                             value={receivedAmount}
                             onChange={(e) => setReceivedAmount(e.target.value)}
-                            className="h-8 text-xs font-bold"
+                            className="h-8 text-xs font-bold tabular-nums"
                           />
                           <Button
                             type="button"
@@ -572,7 +595,7 @@ export function PosPage() {
                         {receivedAmount && parseFloat(receivedAmount) >= totalAmount && (
                           <div className="text-xs font-bold text-emerald-700 bg-emerald-50 p-2 rounded border border-emerald-200 flex justify-between">
                             <span>Kembalian:</span>
-                            <span>{formatRupiah(changeAmount)}</span>
+                            <span className="tabular-nums">{formatRupiah(changeAmount)}</span>
                           </div>
                         )}
                       </div>
@@ -588,7 +611,7 @@ export function PosPage() {
                 disabled={submitting || cartItems.length === 0}
                 className="w-full h-11 text-sm font-bold shadow-md bg-primary hover:bg-primary/90"
               >
-                {submitting ? 'Memproses Transaksi...' : 'SIMPAN & CETAK NOTA'}
+                {submitting ? 'Memproses Transaksi…' : 'SIMPAN & CETAK NOTA'}
               </Button>
             </CardContent>
           </Card>

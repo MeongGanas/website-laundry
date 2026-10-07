@@ -82,7 +82,7 @@ export function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-extrabold text-slate-900">
+            <div className="text-2xl font-extrabold text-slate-900 tabular-nums">
               {formatRupiah(stats?.income_today)}
             </div>
             <p className="text-[11px] text-slate-500 mt-1">Kas masuk dari transaksi lunas hari ini</p>
@@ -99,7 +99,7 @@ export function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-extrabold text-slate-900">
+            <div className="text-2xl font-extrabold text-slate-900 tabular-nums">
               {formatRupiah(stats?.income_this_month)}
             </div>
             <p className="text-[11px] text-slate-500 mt-1">Akumulasi pendapatan bulan berjalan</p>
@@ -116,7 +116,7 @@ export function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-extrabold text-slate-900">
+            <div className="text-2xl font-extrabold text-slate-900 tabular-nums">
               {stats?.active_orders} <span className="text-xs font-normal text-slate-500">Nota</span>
             </div>
             <p className="text-[11px] text-slate-500 mt-1">Sedang dicuci, dikeringkan, atau disetrika</p>
@@ -133,7 +133,7 @@ export function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-extrabold text-purple-700">
+            <div className="text-2xl font-extrabold text-purple-700 tabular-nums">
               {stats?.ready_orders} <span className="text-xs font-normal text-slate-500">Nota</span>
             </div>
             <p className="text-[11px] text-slate-500 mt-1">Sudah rapi & menunggu pelanggan datang</p>
@@ -157,32 +157,32 @@ export function DashboardPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             <div className="p-3 rounded-xl bg-amber-50/60 border border-amber-200/80 text-center">
               <div className="text-xs text-amber-700 font-semibold mb-1">Baru Masuk</div>
-              <div className="text-2xl font-extrabold text-amber-900">{stats?.status_breakdown?.pending || 0}</div>
+              <div className="text-2xl font-extrabold text-amber-900 tabular-nums">{stats?.status_breakdown?.pending || 0}</div>
             </div>
 
             <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-200/80 text-center">
               <div className="text-xs text-blue-700 font-semibold mb-1">Sedang Dicuci</div>
-              <div className="text-2xl font-extrabold text-blue-900">{stats?.status_breakdown?.washing || 0}</div>
+              <div className="text-2xl font-extrabold text-blue-900 tabular-nums">{stats?.status_breakdown?.washing || 0}</div>
             </div>
 
             <div className="p-3 rounded-xl bg-orange-50/60 border border-orange-200/80 text-center">
               <div className="text-xs text-orange-700 font-semibold mb-1">Pengeringan</div>
-              <div className="text-2xl font-extrabold text-orange-900">{stats?.status_breakdown?.drying || 0}</div>
+              <div className="text-2xl font-extrabold text-orange-900 tabular-nums">{stats?.status_breakdown?.drying || 0}</div>
             </div>
 
             <div className="p-3 rounded-xl bg-purple-50/60 border border-purple-200/80 text-center">
               <div className="text-xs text-purple-700 font-semibold mb-1">Disetrika</div>
-              <div className="text-2xl font-extrabold text-purple-900">{stats?.status_breakdown?.ironing || 0}</div>
+              <div className="text-2xl font-extrabold text-purple-900 tabular-nums">{stats?.status_breakdown?.ironing || 0}</div>
             </div>
 
             <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200/80 text-center">
               <div className="text-xs text-emerald-700 font-semibold mb-1">Siap Diambil</div>
-              <div className="text-2xl font-extrabold text-emerald-900">{stats?.status_breakdown?.ready || 0}</div>
+              <div className="text-2xl font-extrabold text-emerald-900 tabular-nums">{stats?.status_breakdown?.ready || 0}</div>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-100 border border-slate-200 text-center">
               <div className="text-xs text-slate-600 font-semibold mb-1">Selesai</div>
-              <div className="text-2xl font-extrabold text-slate-800">{stats?.status_breakdown?.completed || 0}</div>
+              <div className="text-2xl font-extrabold text-slate-800 tabular-nums">{stats?.status_breakdown?.completed || 0}</div>
             </div>
           </div>
         </CardContent>
@@ -217,12 +217,12 @@ export function DashboardPage() {
               <tbody className="divide-y divide-slate-100">
                 {stats?.recent_orders?.map((ord) => (
                   <tr key={ord.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="p-4 font-mono font-bold text-slate-900">
+                    <td className="p-4 font-mono font-bold text-slate-900 tabular-nums">
                       {ord.invoice_number}
                     </td>
                     <td className="p-4">
                       <div className="font-semibold text-slate-800">{ord.customer?.name}</div>
-                      <div className="text-[10px] text-slate-400">{ord.customer?.phone}</div>
+                      <div className="text-[10px] text-slate-400 tabular-nums">{ord.customer?.phone}</div>
                     </td>
                     <td className="p-4">
                       <Badge variant={ord.status} className="uppercase text-[10px] font-bold">
@@ -234,10 +234,10 @@ export function DashboardPage() {
                         {ord.payment_status === 'paid' ? 'Lunas' : 'Belum Bayar'}
                       </Badge>
                     </td>
-                    <td className="p-4 font-bold text-slate-900">
+                    <td className="p-4 font-bold text-slate-900 tabular-nums">
                       {formatRupiah(ord.total_amount)}
                     </td>
-                    <td className="p-4 text-slate-500">
+                    <td className="p-4 text-slate-500 tabular-nums">
                       {formatDate(ord.created_at)}
                     </td>
                     <td className="p-4 text-right">

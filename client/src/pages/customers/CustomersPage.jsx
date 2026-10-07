@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { formatWhatsAppPhone } from '@/lib/utils'
 import api from '@/services/api'
 
 export function CustomersPage() {
@@ -108,7 +109,7 @@ export function CustomersPage() {
           <div className="relative flex-1 sm:w-64">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <Input
-              placeholder="Cari nama / nomor HP..."
+              placeholder="Cari nama / nomor HP…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9 h-9 text-xs"
@@ -139,7 +140,7 @@ export function CustomersPage() {
                 {loading ? (
                   <tr>
                     <td colSpan="6" className="p-8 text-center text-slate-400">
-                      Memuat data pelanggan...
+                      Memuat data pelanggan…
                     </td>
                   </tr>
                 ) : customers.length === 0 ? (
@@ -152,9 +153,9 @@ export function CustomersPage() {
                   customers.map((c) => (
                     <tr key={c.id} className="hover:bg-slate-50 transition-colors">
                       <td className="p-4 font-bold text-slate-900">{c.name}</td>
-                      <td className="p-4 font-mono text-slate-600">
+                      <td className="p-4 font-mono text-slate-600 tabular-nums">
                         <a
-                          href={`https://wa.me/${c.phone.replace(/[^0-9]/g, '')}`}
+                          href={`https://wa.me/${formatWhatsAppPhone(c.phone)}`}
                           target="_blank"
                           rel="noreferrer"
                           className="text-emerald-700 hover:underline flex items-center"
@@ -164,7 +165,7 @@ export function CustomersPage() {
                       </td>
                       <td className="p-4 text-slate-600 max-w-xs truncate">{c.address || '-'}</td>
                       <td className="p-4 text-slate-500 italic max-w-xs truncate">{c.notes || '-'}</td>
-                      <td className="p-4 text-center font-bold text-primary">
+                      <td className="p-4 text-center font-bold text-primary tabular-nums">
                         {c.orders_count || 0}
                       </td>
                       <td className="p-4 text-right space-x-1">
@@ -172,6 +173,7 @@ export function CustomersPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleOpenModal(c)}
+                          aria-label={`Edit pelanggan ${c.name}`}
                           className="h-8 w-8 p-0 text-slate-600"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
@@ -180,6 +182,7 @@ export function CustomersPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(c.id)}
+                          aria-label={`Hapus pelanggan ${c.name}`}
                           className="h-8 w-8 p-0 text-rose-600 hover:text-rose-700 hover:bg-rose-50"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -211,28 +214,35 @@ export function CustomersPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4 text-xs">
             <div>
-              <Label className="text-xs">Nama Lengkap *</Label>
+              <Label htmlFor="cust-name" className="text-xs">Nama Lengkap *</Label>
               <Input
+                id="cust-name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
                 required
                 className="mt-1 h-9 text-xs"
               />
             </div>
 
             <div>
-              <Label className="text-xs">Nomor WhatsApp / HP *</Label>
+              <Label htmlFor="cust-phone" className="text-xs">Nomor WhatsApp / HP *</Label>
               <Input
+                id="cust-phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 required
-                className="mt-1 h-9 text-xs"
+                className="mt-1 h-9 text-xs tabular-nums"
               />
             </div>
 
             <div>
-              <Label className="text-xs">Alamat Domisili</Label>
+              <Label htmlFor="cust-address" className="text-xs">Alamat Domisili</Label>
               <Input
+                id="cust-address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 className="mt-1 h-9 text-xs"
@@ -240,8 +250,9 @@ export function CustomersPage() {
             </div>
 
             <div>
-              <Label className="text-xs">Catatan Khusus</Label>
+              <Label htmlFor="cust-notes" className="text-xs">Catatan Khusus</Label>
               <Input
+                id="cust-notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Misal: Suka wangi lavender, minta setrika licin"
@@ -250,7 +261,7 @@ export function CustomersPage() {
             </div>
 
             <Button type="submit" disabled={saving} className="w-full font-bold">
-              {saving ? 'Menyimpan...' : 'Simpan Data Pelanggan'}
+              {saving ? 'Menyimpan…' : 'Simpan Data Pelanggan'}
             </Button>
           </form>
         </DialogContent>

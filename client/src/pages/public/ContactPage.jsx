@@ -2,14 +2,10 @@ import React, { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import {
   MapPin,
-  Phone,
-  Mail,
   Clock,
   MessageCircle,
   Send,
-  Sparkles,
-  CheckCircle2,
-  ExternalLink
+  CheckCircle2
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -30,7 +26,20 @@ export function ContactPage() {
     e.preventDefault()
     if (!message.trim()) return
 
-    const waText = `Halo admin Laundry,\n\nNama: *${name || 'Pelanggan'}*\nNo. HP: *${phone || '-'}*\nPesan: ${message}`
+    const waText = [
+      `*PESAN DARI WEBSITE LAUNDRY*`,
+      `------------------------------------------`,
+      `Nama: *${name.trim() || 'Pelanggan'}*`,
+      `No. HP: *${phone.trim() || '-'}*`,
+      ``,
+      `*Pesan:*`,
+      message.trim(),
+      `------------------------------------------`
+    ]
+      .join('\n')
+      .replace(/[\u00A0\u202F]/g, ' ')
+      .replace(/[\uFE00-\uFE0F]/g, '')
+
     window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(waText)}`, '_blank')
     setSubmitted(true)
   }

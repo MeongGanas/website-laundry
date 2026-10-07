@@ -78,7 +78,11 @@ export function LoginPage() {
           <div className="absolute inset-0 z-0">
             <img
               src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&w=800&q=80"
-              alt="Laundromat aesthetic"
+              alt="Interior outlet laundry modern"
+              width={800}
+              height={800}
+              loading="eager"
+              decoding="async"
               className="w-full h-full object-cover opacity-35"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/30" />
@@ -151,6 +155,8 @@ export function LoginPage() {
                 <Input
                   id="email"
                   type="email"
+                  autoComplete="email"
+                  spellCheck={false}
                   placeholder="nama@laundry.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -169,6 +175,7 @@ export function LoginPage() {
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="current-password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -179,7 +186,7 @@ export function LoginPage() {
             </div>
 
             <Button type="submit" disabled={loading} className="w-full font-bold h-11 shadow-md">
-              {loading ? 'Memverifikasi...' : 'Masuk Sekarang'}
+              {loading ? 'Memverifikasi…' : 'Masuk Sekarang'}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </form>

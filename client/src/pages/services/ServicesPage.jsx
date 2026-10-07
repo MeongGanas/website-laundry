@@ -141,7 +141,7 @@ export function ServicesPage() {
                 {loading ? (
                   <tr>
                     <td colSpan="6" className="p-8 text-center text-slate-400">
-                      Memuat data layanan...
+                      Memuat data layanan…
                     </td>
                   </tr>
                 ) : services.length === 0 ? (
@@ -159,13 +159,13 @@ export function ServicesPage() {
                           {s.category}
                         </Badge>
                       </td>
-                      <td className="p-4 font-extrabold text-primary text-sm">
+                      <td className="p-4 font-extrabold text-primary text-sm tabular-nums">
                         {formatRupiah(s.price)} <span className="text-[10px] text-slate-400 font-normal">/{s.unit}</span>
                       </td>
                       <td className="p-4 text-slate-700">
                         <span className="flex items-center">
                           <Clock className="w-3.5 h-3.5 mr-1 text-slate-400" />
-                          {s.estimated_hours} Jam
+                          <span className="tabular-nums font-semibold">{s.estimated_hours}</span>&nbsp;Jam
                         </span>
                       </td>
                       <td className="p-4 text-slate-500 max-w-xs truncate">{s.description || '-'}</td>
@@ -174,6 +174,7 @@ export function ServicesPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleOpenModal(s)}
+                          aria-label={`Edit layanan ${s.name}`}
                           className="h-8 w-8 p-0 text-slate-600"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
@@ -182,6 +183,7 @@ export function ServicesPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(s.id)}
+                          aria-label={`Hapus layanan ${s.name}`}
                           className="h-8 w-8 p-0 text-rose-600 hover:text-rose-700 hover:bg-rose-50"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -213,8 +215,9 @@ export function ServicesPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4 text-xs">
             <div>
-              <Label className="text-xs">Nama Layanan *</Label>
+              <Label htmlFor="svc-name" className="text-xs">Nama Layanan *</Label>
               <Input
+                id="svc-name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Contoh: Cuci Kering Setrika Express"
@@ -225,8 +228,9 @@ export function ServicesPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs">Kategori *</Label>
+                <Label htmlFor="svc-category" className="text-xs">Kategori *</Label>
                 <select
+                  id="svc-category"
                   value={category}
                   onChange={(e) => {
                     setCategory(e.target.value)
@@ -241,8 +245,9 @@ export function ServicesPage() {
               </div>
 
               <div>
-                <Label className="text-xs">Satuan Unit *</Label>
+                <Label htmlFor="svc-unit" className="text-xs">Satuan Unit *</Label>
                 <Input
+                  id="svc-unit"
                   value={unit}
                   onChange={(e) => setUnit(e.target.value)}
                   placeholder="kg / pcs / pasang"
@@ -254,33 +259,36 @@ export function ServicesPage() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs">Harga per Unit (Rp) *</Label>
+                <Label htmlFor="svc-price" className="text-xs">Harga per Unit (Rp) *</Label>
                 <Input
+                  id="svc-price"
                   type="number"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="8000"
                   required
-                  className="mt-1 h-9 text-xs"
+                  className="mt-1 h-9 text-xs tabular-nums"
                 />
               </div>
 
               <div>
-                <Label className="text-xs">Estimasi Durasi (Jam) *</Label>
+                <Label htmlFor="svc-hours" className="text-xs">Estimasi Durasi (Jam) *</Label>
                 <Input
+                  id="svc-hours"
                   type="number"
                   value={estimatedHours}
                   onChange={(e) => setEstimatedHours(e.target.value)}
                   placeholder="48"
                   required
-                  className="mt-1 h-9 text-xs"
+                  className="mt-1 h-9 text-xs tabular-nums"
                 />
               </div>
             </div>
 
             <div>
-              <Label className="text-xs">Keterangan / Deskripsi Layanan</Label>
+              <Label htmlFor="svc-description" className="text-xs">Keterangan / Deskripsi Layanan</Label>
               <Input
+                id="svc-description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Deskripsi singkat untuk pelanggan"
@@ -289,7 +297,7 @@ export function ServicesPage() {
             </div>
 
             <Button type="submit" disabled={saving} className="w-full font-bold">
-              {saving ? 'Menyimpan...' : 'Simpan Layanan'}
+              {saving ? 'Menyimpan…' : 'Simpan Layanan'}
             </Button>
           </form>
         </DialogContent>
