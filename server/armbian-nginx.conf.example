@@ -1,0 +1,49 @@
+# Contoh Konfigurasi Nginx untuk Server Armbian Anda
+# Salin file ini ke: /etc/nginx/sites-available/laundry-api
+# Lalu aktifkan: ln -s /etc/nginx/sites-available/laundry-api /etc/nginx/sites-enabled/
+# Dan reload nginx: sudo systemctl reload nginx
+
+server {
+    listen 80;
+    server_name api.yourdomain.com; # Ganti dengan domain atau IP Armbian Anda
+    root /var/www/laundry/server/public;
+
+    index index.php index.html;
+    charset utf-8;
+
+    # CORS Headers untuk React Vercel
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS' always;
+    add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, Accept, X-Requested-With' always;
+
+    location / {
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '*';
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, Accept, X-Requested-With';
+            add_header 'Access-Control-Max-Age' 1728000;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            add_header 'Content-Length' 0;
+            return 204;
+        }
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        # Menyesuaikan dengan socket PHP 8.5 di Armbian Anda:
+        fastcgi_pass unix:/run/php/php8.5-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_hide_header X-Powered-By;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+
