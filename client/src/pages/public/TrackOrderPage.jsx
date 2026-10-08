@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams, Link } from "react-router-dom";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useSearchParams } from "react-router-dom";
+import { motion, useReducedMotion } from "framer-motion";
 import {
     Search,
     CheckCircle2,
     Clock,
     Shirt,
-    Calendar,
     AlertCircle,
     Sparkles,
-    ArrowLeft,
-    Phone,
     Layers,
-    ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +17,6 @@ import {
     CardHeader,
     CardTitle,
     CardContent,
-    CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatRupiah, formatDate } from "@/lib/utils";

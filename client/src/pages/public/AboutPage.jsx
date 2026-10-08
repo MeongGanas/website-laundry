@@ -35,7 +35,7 @@ export function AboutPage() {
       <Navbar />
 
       {/* Header Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/70 to-slate-50 py-16 sm:py-24 border-b">
+      <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/70 to-slate-50 py-16 sm:py-24">
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
           <motion.div
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
@@ -56,7 +56,7 @@ export function AboutPage() {
       </section>
 
       {/* Story & Philosophy Section with Side-by-Side Photo Showcase */}
-      <section className="py-20 bg-white border-b">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Col: Narrative */}
@@ -126,7 +126,7 @@ export function AboutPage() {
       </section>
 
       {/* 4 Pillars Quality Grid */}
-      <section className="py-20 bg-slate-50 border-b">
+      <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">

@@ -61,7 +61,7 @@ export function ThermalReceipt({ order, onClose }) {
           <Printer className="w-4 h-4 mr-2" />
           Cetak Struk Thermal
         </Button>
-        <Button onClick={handleSendWhatsApp} variant="outline" className="text-emerald-700 border-emerald-300 hover:bg-emerald-50">
+        <Button onClick={handleSendWhatsApp} variant="ghost" className="text-emerald-700 bg-emerald-50 hover:bg-emerald-100 font-semibold border-0">
           <MessageCircle className="w-4 h-4 mr-2 text-emerald-600" />
           Kirim ke WhatsApp
         </Button>
@@ -75,7 +75,7 @@ export function ThermalReceipt({ order, onClose }) {
       {/* The Printable Area (Styled as standard 58mm / 80mm thermal receipt) */}
       <div
         id="printable-receipt"
-        className="w-full max-w-[340px] bg-white text-black p-4 border border-dashed border-slate-300 rounded font-mono text-xs leading-tight shadow-sm tabular-nums"
+        className="w-full max-w-[340px] bg-white text-black p-5 rounded-2xl font-mono text-xs leading-tight shadow-md tabular-nums"
       >
         {/* Header */}
         <div className="text-center pb-2 border-b border-dashed border-slate-400">

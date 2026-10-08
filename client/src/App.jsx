@@ -13,10 +13,11 @@ import { PosPage } from '@/pages/pos/PosPage'
 import { OrderBoardPage } from '@/pages/orders/OrderBoardPage'
 import { CustomersPage } from '@/pages/customers/CustomersPage'
 import { ServicesPage } from '@/pages/services/ServicesPage'
+import { getAuthToken } from '@/lib/cookies'
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth()
-  const hasToken = isAuthenticated || Boolean(localStorage.getItem('laundry_token'))
+  const hasToken = isAuthenticated || Boolean(getAuthToken())
 
   if (loading) {
     return (

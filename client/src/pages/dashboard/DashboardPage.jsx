@@ -53,7 +53,7 @@ export function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Top Banner / Welcome */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-xs">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
             Ringkasan Operasional Outlet
@@ -63,7 +63,7 @@ export function DashboardPage() {
           </p>
         </div>
         <Link to="/admin/pos">
-          <Button className="font-semibold shadow-sm">
+          <Button className="font-semibold shadow-xs">
             <ShoppingCart className="w-4 h-4 mr-2" />
             + Buat Order Kasir Baru
           </Button>
@@ -72,7 +72,7 @@ export function DashboardPage() {
 
       {/* Metric Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        <Card className="border-slate-200">
+        <Card className="border-0 shadow-xs">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-semibold uppercase text-slate-500 tracking-wider">
               Pendapatan Hari Ini
@@ -89,7 +89,7 @@ export function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200">
+        <Card className="border-0 shadow-xs">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-semibold uppercase text-slate-500 tracking-wider">
               Pendapatan Bulan Ini
@@ -106,7 +106,7 @@ export function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200">
+        <Card className="border-0 shadow-xs">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-semibold uppercase text-slate-500 tracking-wider">
               Cucian Dalam Proses
@@ -123,7 +123,7 @@ export function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200">
+        <Card className="border-0 shadow-xs">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-semibold uppercase text-slate-500 tracking-wider">
               Siap Diambil
@@ -142,8 +142,8 @@ export function DashboardPage() {
       </div>
 
       {/* Laundry Status Pipeline Breakdown */}
-      <Card className="border-slate-200">
-        <CardHeader className="pb-3 border-b">
+      <Card className="border-0 shadow-xs">
+        <CardHeader className="pb-3">
           <div className="flex justify-between items-center">
             <CardTitle className="text-sm font-bold text-slate-900">
               Status Pipa Alur Cucian Aktif
@@ -155,32 +155,32 @@ export function DashboardPage() {
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="p-3 rounded-xl bg-amber-50/60 border border-amber-200/80 text-center">
+            <div className="p-3 rounded-2xl bg-amber-50/80 text-center">
               <div className="text-xs text-amber-700 font-semibold mb-1">Baru Masuk</div>
               <div className="text-2xl font-extrabold text-amber-900 tabular-nums">{stats?.status_breakdown?.pending || 0}</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-200/80 text-center">
+            <div className="p-3 rounded-2xl bg-blue-50/80 text-center">
               <div className="text-xs text-blue-700 font-semibold mb-1">Sedang Dicuci</div>
               <div className="text-2xl font-extrabold text-blue-900 tabular-nums">{stats?.status_breakdown?.washing || 0}</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-orange-50/60 border border-orange-200/80 text-center">
+            <div className="p-3 rounded-2xl bg-orange-50/80 text-center">
               <div className="text-xs text-orange-700 font-semibold mb-1">Pengeringan</div>
               <div className="text-2xl font-extrabold text-orange-900 tabular-nums">{stats?.status_breakdown?.drying || 0}</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-purple-50/60 border border-purple-200/80 text-center">
+            <div className="p-3 rounded-2xl bg-purple-50/80 text-center">
               <div className="text-xs text-purple-700 font-semibold mb-1">Disetrika</div>
               <div className="text-2xl font-extrabold text-purple-900 tabular-nums">{stats?.status_breakdown?.ironing || 0}</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-200/80 text-center">
+            <div className="p-3 rounded-2xl bg-emerald-50/80 text-center">
               <div className="text-xs text-emerald-700 font-semibold mb-1">Siap Diambil</div>
               <div className="text-2xl font-extrabold text-emerald-900 tabular-nums">{stats?.status_breakdown?.ready || 0}</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-100 border border-slate-200 text-center">
+            <div className="p-3 rounded-2xl bg-slate-100 text-center">
               <div className="text-xs text-slate-600 font-semibold mb-1">Selesai</div>
               <div className="text-2xl font-extrabold text-slate-800 tabular-nums">{stats?.status_breakdown?.completed || 0}</div>
             </div>
@@ -189,13 +189,13 @@ export function DashboardPage() {
       </Card>
 
       {/* Recent Orders List */}
-      <Card className="border-slate-200">
-        <CardHeader className="pb-3 border-b flex flex-row items-center justify-between">
+      <Card className="border-0 shadow-xs">
+        <CardHeader className="pb-3 flex flex-row items-center justify-between">
           <CardTitle className="text-sm font-bold text-slate-900">
             Transaksi Pesanan Terbaru
           </CardTitle>
           <Link to="/admin/orders">
-            <Button variant="outline" size="sm" className="text-xs">
+            <Button variant="ghost" size="sm" className="text-xs bg-slate-100 hover:bg-slate-200 font-semibold">
               Lihat Semua Transaksi
             </Button>
           </Link>
@@ -203,7 +203,7 @@ export function DashboardPage() {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-slate-50 text-slate-500 font-semibold border-b">
+              <thead className="bg-slate-50 text-slate-500 font-semibold">
                 <tr>
                   <th className="p-4">No. Invoice</th>
                   <th className="p-4">Pelanggan</th>
@@ -214,7 +214,7 @@ export function DashboardPage() {
                   <th className="p-4 text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-50">
                 {stats?.recent_orders?.map((ord) => (
                   <tr key={ord.id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="p-4 font-mono font-bold text-slate-900 tabular-nums">

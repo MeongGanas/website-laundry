@@ -94,7 +94,7 @@ export function CustomersPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-6 rounded-2xl shadow-xs">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center">
             <Users className="w-6 h-6 mr-2 text-primary" />
@@ -115,18 +115,18 @@ export function CustomersPage() {
               className="pl-9 h-9 text-xs"
             />
           </div>
-          <Button size="sm" onClick={() => handleOpenModal()} className="font-semibold">
+          <Button size="sm" onClick={() => handleOpenModal()} className="font-semibold shadow-xs">
             <Plus className="w-4 h-4 mr-1" /> Tambah
           </Button>
         </div>
       </div>
 
       {/* Customer Table Card */}
-      <Card className="border-slate-200">
+      <Card className="border-0 shadow-xs">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-slate-50 text-slate-500 font-semibold border-b">
+              <thead className="bg-slate-50 text-slate-500 font-semibold">
                 <tr>
                   <th className="p-4">Nama Pelanggan</th>
                   <th className="p-4">Nomor HP / WhatsApp</th>
@@ -136,7 +136,7 @@ export function CustomersPage() {
                   <th className="p-4 text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-50">
                 {loading ? (
                   <tr>
                     <td colSpan="6" className="p-8 text-center text-slate-400">
@@ -207,7 +207,7 @@ export function CustomersPage() {
           </DialogHeader>
 
           {error && (
-            <div className="p-3 bg-rose-50 text-rose-700 text-xs rounded-lg border border-rose-200">
+            <div className="p-3 bg-rose-50 text-rose-700 text-xs rounded-xl">
               {error}
             </div>
           )}

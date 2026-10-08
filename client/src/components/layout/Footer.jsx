@@ -4,7 +4,7 @@ import { Sparkles, MapPin, Phone, Clock, Mail, ShieldCheck } from 'lucide-react'
 
 export function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800">
+    <footer className="bg-slate-900 text-slate-300 pt-16 pb-12">
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Col 1: Brand */}

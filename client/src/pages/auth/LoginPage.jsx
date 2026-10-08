@@ -71,7 +71,7 @@ export function LoginPage() {
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden grid grid-cols-1 md:grid-cols-12"
+        className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12"
       >
         {/* Left Side: Aesthetic Photography & Brand (5 Cols on Desktop) */}
         <div className="md:col-span-5 relative hidden md:flex flex-col justify-between p-8 text-white overflow-hidden bg-slate-900">
@@ -113,7 +113,7 @@ export function LoginPage() {
                 <span>Kirim nota otomatis ke WhatsApp</span>
               </div>
             </div>
-            <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-400">
+            <div className="pt-4 text-[11px] text-slate-400">
               © {new Date().getFullYear()} Laundry Management.
             </div>
           </div>
@@ -140,7 +140,7 @@ export function LoginPage() {
             <motion.div
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center space-x-2 font-medium"
+              className="mb-4 p-3 rounded-xl bg-rose-50 text-rose-700 text-xs flex items-center space-x-2 font-medium"
             >
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
               <span>{error}</span>
@@ -192,28 +192,28 @@ export function LoginPage() {
           </form>
 
           {/* Quick 1-Click Login Demo */}
-          <div className="mt-8 pt-6 border-t border-slate-100">
+          <div className="mt-8 pt-4">
             <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2.5 text-center">
               Login Cepat 1-Klik (Demo Testing)
             </div>
             <div className="grid grid-cols-2 gap-2.5">
               <Button
                 type="button"
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 disabled={loading}
                 onClick={() => handleQuickLogin('kasir')}
-                className="text-xs h-9 font-semibold hover:bg-slate-50 border-slate-200 shadow-2xs"
+                className="text-xs h-9 font-semibold bg-slate-100 hover:bg-slate-200 text-slate-800 shadow-2xs"
               >
                 ⚡ Masuk Kasir
               </Button>
               <Button
                 type="button"
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 disabled={loading}
                 onClick={() => handleQuickLogin('admin')}
-                className="text-xs h-9 font-semibold hover:bg-slate-50 border-slate-200 shadow-2xs"
+                className="text-xs h-9 font-semibold bg-slate-100 hover:bg-slate-200 text-slate-800 shadow-2xs"
               >
                 👑 Masuk Admin
               </Button>

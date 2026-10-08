@@ -58,7 +58,7 @@ export function ServicesPublicPage() {
       <Navbar />
 
       {/* Header Banner with Background Image Overlay */}
-      <section className="relative overflow-hidden bg-slate-900 text-white py-20 border-b">
+      <section className="relative overflow-hidden bg-slate-900 text-white py-20">
         <div className="absolute inset-0 z-0 opacity-25">
           <img
             src={CATEGORY_IMAGES[activeCategory]}
@@ -183,7 +183,7 @@ export function ServicesPublicPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-white border-t">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">

@@ -34,6 +34,19 @@ class AuthController extends Controller
         // Generate Sanctum Bearer Token
         $token = $user->createToken('auth-token')->plainTextToken;
 
+        // Create cookie for 7 days
+        $cookie = cookie(
+            'laundry_token',
+            $token,
+            60 * 24 * 7,
+            '/',
+            null,
+            false,
+            false,
+            false,
+            'Lax'
+        );
+
         return response()->json([
             'message' => 'Login berhasil',
             'token' => $token,
@@ -44,7 +57,7 @@ class AuthController extends Controller
                 'role' => $user->role,
                 'phone' => $user->phone,
             ],
-        ]);
+        ])->withCookie($cookie);
     }
 
     public function logout(Request $request)
@@ -53,7 +66,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Logout berhasil',
-        ]);
+        ])->withoutCookie('laundry_token');
     }
 
     public function me(Request $request)

@@ -49,7 +49,7 @@ export function ContactPage() {
       <Navbar />
 
       {/* Header Banner */}
-      <section className="bg-gradient-to-b from-blue-50/70 to-slate-50 py-16 sm:py-20 border-b">
+      <section className="bg-gradient-to-b from-blue-50/70 to-slate-50 py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl text-center">
           <motion.div
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}

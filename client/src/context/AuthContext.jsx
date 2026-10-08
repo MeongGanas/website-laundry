@@ -1,27 +1,35 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import api from '@/services/api'
+import {
+  getAuthToken,
+  setAuthToken,
+  getAuthUser,
+  setAuthUser,
+  clearAuthCookies,
+} from '@/lib/cookies'
 
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem('laundry_token'))
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('laundry_user')
-    try {
-      return saved ? JSON.parse(saved) : null
-    } catch {
-      return null
-    }
-  })
+  const [token, setToken] = useState(() => getAuthToken())
+  const [user, setUser] = useState(() => getAuthUser())
   const [loading, setLoading] = useState(false)
+
+  // Sync state if cookies change
+  useEffect(() => {
+    const currentToken = getAuthToken()
+    const currentUser = getAuthUser()
+    if (currentToken !== token) setToken(currentToken)
+    if (currentUser && (!user || currentUser.id !== user.id)) setUser(currentUser)
+  }, [])
 
   const login = async (email, password) => {
     const response = await api.post('/login', { email, password })
     const { token: receivedToken, user: receivedUser } = response.data
     
-    // Save to localStorage synchronously
-    localStorage.setItem('laundry_token', receivedToken)
-    localStorage.setItem('laundry_user', JSON.stringify(receivedUser))
+    // Save to cookies with 7-day expiration
+    setAuthToken(receivedToken)
+    setAuthUser(receivedUser)
     
     setToken(receivedToken)
     setUser(receivedUser)
@@ -30,21 +38,20 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      const currentToken = token || localStorage.getItem('laundry_token')
+      const currentToken = token || getAuthToken()
       if (currentToken) {
         await api.post('/logout')
       }
     } catch (err) {
       console.warn('Logout error ignored:', err)
     } finally {
-      localStorage.removeItem('laundry_token')
-      localStorage.removeItem('laundry_user')
+      clearAuthCookies()
       setToken(null)
       setUser(null)
     }
   }
 
-  const isAuthenticated = Boolean(token || localStorage.getItem('laundry_token'))
+  const isAuthenticated = Boolean(token || getAuthToken())
 
   return (
     <AuthContext.Provider

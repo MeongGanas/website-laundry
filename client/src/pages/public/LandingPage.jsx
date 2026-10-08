@@ -67,7 +67,7 @@ export function LandingPage() {
             <Navbar />
 
             {/* Hero Section with Split Image Visual */}
-            <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/60 via-white to-slate-50 py-16 sm:py-24 border-b">
+            <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/60 via-white to-slate-50 py-16 sm:py-24">
                 {/* Subtle decorative glow blobs */}
                 <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
@@ -248,7 +248,7 @@ export function LandingPage() {
             </section>
 
             {/* Feature Highlights Grid */}
-            <section className="py-16 bg-white border-b">
+            <section className="py-16 bg-white">
                 <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <motion.div
@@ -319,7 +319,7 @@ export function LandingPage() {
             </section>
 
             {/* Popular Services Section with Visual Thumbnails */}
-            <section className="py-20 bg-slate-50 border-b">
+            <section className="py-20 bg-slate-50">
                 <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
                         <div>
@@ -409,7 +409,7 @@ export function LandingPage() {
                                 size="lg"
                                 className="font-bold px-8 shadow-md"
                             >
-                                Katalog Lengkap (Kiloan, Bed Cover, Sepatu)
+                                Katalog Lengkap
                                 <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>
                         </Link>
@@ -418,7 +418,7 @@ export function LandingPage() {
             </section>
 
             {/* Visual Photo Showcase: Keunggulan Laundry Kami */}
-            <section className="py-20 bg-white border-b">
+            <section className="py-20 bg-white">
                 <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
                     <div className="text-center max-w-2xl mx-auto mb-14">
                         <Badge className="bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border-emerald-200 text-xs px-3 py-1 font-bold mb-2">
