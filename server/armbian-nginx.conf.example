@@ -1,31 +1,32 @@
-# Contoh Konfigurasi Nginx untuk Server Armbian Anda
-# Salin file ini ke: /etc/nginx/sites-available/laundry-api
-# Lalu aktifkan: ln -s /etc/nginx/sites-available/laundry-api /etc/nginx/sites-enabled/
-# Dan reload nginx: sudo systemctl reload nginx
+# Contoh Konfigurasi Nginx untuk Server Armbian / Ubuntu Anda
+# Salin file ini ke: /etc/nginx/sites-available/api.meongganas.my.id
+# Lalu aktifkan: sudo ln -sf /etc/nginx/sites-available/api.meongganas.my.id /etc/nginx/sites-enabled/
+# Dan restart: sudo nginx -t && sudo systemctl restart nginx
 
 server {
     listen 80;
-    server_name api.yourdomain.com; # Ganti dengan domain atau IP Armbian Anda
-    root /var/www/laundry/server/public;
+    server_name api.meongganas.my.id; # Sesuaikan dengan subdomain / domain Anda
+
+    # Sesuaikan dengan path asli folder proyek di server Anda (cek via 'pwd'):
+    root /var/www/website-laundry/server/public;
 
     index index.php index.html;
     charset utf-8;
 
-    # CORS Headers untuk React Vercel
-    add_header 'Access-Control-Allow-Origin' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS' always;
-    add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, Accept, X-Requested-With' always;
-
+    # Routing Laravel Umum
     location / {
-        if ($request_method = 'OPTIONS') {
-            add_header 'Access-Control-Allow-Origin' '*';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, PATCH, DELETE, OPTIONS';
-            add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, Accept, X-Requested-With';
-            add_header 'Access-Control-Max-Age' 1728000;
-            add_header 'Content-Type' 'text/plain charset=UTF-8';
-            add_header 'Content-Length' 0;
-            return 204;
-        }
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # Proteksi Rate Limiting API (memerlukan limit_req_zone di /etc/nginx/nginx.conf)
+    location /api/ {
+        limit_req zone=api_limit burst=20 nodelay;
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # Proteksi Khusus Login dari Brute-Force
+    location = /api/login {
+        limit_req zone=login_limit burst=3 nodelay;
         try_files $uri $uri/ /index.php?$query_string;
     }
 
@@ -35,8 +36,9 @@ server {
     error_page 404 /index.php;
 
     location ~ \.php$ {
-        # Menyesuaikan dengan socket PHP 8.5 di Armbian Anda:
-        fastcgi_pass unix:/run/php/php8.5-fpm.sock;
+        include snippets/fastcgi-php.conf;
+        # Menyesuaikan dengan socket PHP yang aktif di server (misal php8.5-fpm.sock):
+        fastcgi_pass unix:/var/run/php/php8.5-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
         fastcgi_hide_header X-Powered-By;
@@ -46,4 +48,3 @@ server {
         deny all;
     }
 }
-
